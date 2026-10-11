@@ -1,5 +1,5 @@
 /* ==========================================================
-   MADA CRAFT BH v2.0 — Interactions & Animations
+   MADA CRAFT BH v2.1 — Final
    ========================================================== */
 
 (() => {
@@ -18,6 +18,9 @@
   const loaderCount = $('#loaderCount');
   const letters = 'MADACRAFT'.split('');
   loaderTitle.innerHTML = letters.map(l => `<span>${l}</span>`).join('');
+  $$('#loaderTitle span').forEach((s, i) => {
+    s.style.animationDelay = (i * 0.06) + 's';
+  });
 
   let progress = 0;
   const tick = setInterval(() => {
@@ -148,7 +151,7 @@
       .from('.hero__scroll', { opacity: 0, duration: .6 }, '-=0.3');
 
     // Counters
-    $$('.hero__stat .num, .astat .num').forEach(el => {
+    $$('.hero__stat .num').forEach(el => {
       const target = +el.dataset.count;
       const obj = { val: 0 };
       gsap.to(obj, {
@@ -156,10 +159,6 @@
         duration: 2,
         ease: 'power2.out',
         onUpdate: () => el.textContent = Math.floor(obj.val),
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 90%',
-        }
       });
     });
   }
@@ -202,45 +201,19 @@
     });
   });
 
-  /* ============ 11. SERVICES — HORIZONTAL SCROLL (Desktop) ============ */
-  const track = $('#servicesTrack');
-  const servicesSection = $('.services');
-
-  function setupHorizontal() {
-    if (innerWidth < 768) {
-      track.style.transform = '';
-      return;
-    }
-    const totalScroll = track.scrollWidth - track.clientWidth;
-    gsap.to(track, {
-      x: -totalScroll,
-      ease: 'none',
+  /* ============ 11. SERVICES — Reveal ============ */
+  $$('.scard').forEach((card, i) => {
+    gsap.from(card, {
+      y: 60,
+      opacity: 0,
+      duration: .9,
+      delay: i * 0.08,
+      ease: 'power3.out',
       scrollTrigger: {
-        trigger: servicesSection,
-        start: 'top top',
-        end: () => `+=${totalScroll}`,
-        pin: true,
-        scrub: 1,
-        invalidateOnRefresh: true,
-        anticipatePin: 1,
+        trigger: card,
+        start: 'top 88%',
       }
     });
-  }
-
-  // Initialize after images load
-  window.addEventListener('load', () => {
-    setupHorizontal();
-    ScrollTrigger.refresh();
-  });
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-      setupHorizontal();
-      ScrollTrigger.refresh();
-    }, 200);
   });
 
   /* ============ 12. PORTFOLIO FILTER ============ */
@@ -275,13 +248,12 @@
   /* ============ 13. PORTFOLIO LIGHTBOX ============ */
   pcards.forEach(card => {
     card.addEventListener('click', () => {
-      if (isTouch) return; // simple mobile skip
+      if (isTouch) return;
       const img = card.querySelector('img');
       const title = card.querySelector('h3')?.textContent || '';
       const cat = card.querySelector('.pcard__info span')?.textContent || '';
 
       const lb = document.createElement('div');
-      lb.className = 'lightbox';
       lb.style.cssText = `
         position:fixed; inset:0; z-index:9999;
         background:rgba(10,31,22,.96);
@@ -289,6 +261,7 @@
         display:grid; place-items:center;
         padding:1.5rem; opacity:0;
         transition:opacity .4s ease;
+        cursor:pointer;
       `;
       lb.innerHTML = `
         <div style="max-width:900px; width:100%;">
@@ -296,10 +269,10 @@
             style="width:100%; border-radius:20px; box-shadow:0 40px 80px rgba(0,0,0,.6);" />
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem; color:#F4F1EA; gap:1rem; flex-wrap:wrap;">
             <div>
-              <h3 style="font-size:1.25rem; color:#F4F1EA; margin-bottom:.25rem;">${title}</h3>
-              <span style="font-size:.75rem; color:#C5A059; letter-spacing:.2em; text-transform:uppercase;">${cat}</span>
+              <h3 style="font-size:1.25rem; color:#F4F1EA; margin-bottom:.25rem; font-family:'IBM Plex Sans Arabic', sans-serif;">${title}</h3>
+              <span style="font-size:.75rem; color:#C5A059; letter-spacing:.2em; text-transform:uppercase; font-family:'Outfit', sans-serif;">${cat}</span>
             </div>
-            <button style="color:#C5A059; font-size:.85rem; letter-spacing:.1em;">إغلاق ✕</button>
+            <span style="color:#C5A059; font-size:.85rem; letter-spacing:.1em; font-family:'IBM Plex Sans Arabic', sans-serif;">إغلاق ✕</span>
           </div>
         </div>
       `;
@@ -321,24 +294,48 @@
     speed: 900,
     spaceBetween: 24,
     autoplay: { delay: 5500, disableOnInteraction: false },
-    pagination: { el: '#tPag', clickable: true },
-    navigation: { nextEl: '#tNext', prevEl: '#tPrev' },
+    pagination: { el: '.testi .swiper-pagination', clickable: true },
     breakpoints: {
       0: { slidesPerView: 1 },
-      768: { slidesPerView: 1.2 },
+      768: { slidesPerView: 1 },
       1024: { slidesPerView: 2 }
     }
   });
 
-  /* ============ 15. PROCESS STEPS ANIMATION ============ */
-  $$('.pstep').forEach((step, i) => {
-    gsap.from(step, {
-      y: 60, opacity: 0, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: step, start: 'top 85%' }
+  /* ============ 15. PROCESS — Line Progress + Reveal ============ */
+  const processList = document.querySelector('.process__list');
+  const psteps = $$('.pstep');
+
+  psteps.forEach((step, i) => {
+    ScrollTrigger.create({
+      trigger: step,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        setTimeout(() => step.classList.add('is-in'), i * 120);
+      }
     });
-    gsap.from(step.querySelector('.pstep__num'), {
-      x: -30, opacity: 0, duration: .8, delay: .2, ease: 'power2.out',
-      scrollTrigger: { trigger: step, start: 'top 85%' }
+  });
+
+  if (processList && innerWidth > 768) {
+    ScrollTrigger.create({
+      trigger: processList,
+      start: 'top 70%',
+      end: 'bottom 80%',
+      onUpdate: (self) => {
+        processList.style.setProperty('--progress', (self.progress * 100) + '%');
+      }
+    });
+  }
+
+  // Hover scaling for numbers
+  psteps.forEach(step => {
+    const num = step.querySelector('.pstep__num');
+    step.addEventListener('mouseenter', () => {
+      gsap.to(num, { scale: 1.15, duration: .4, ease: 'back.out(2)' });
+    });
+    step.addEventListener('mouseleave', () => {
+      gsap.to(num, { scale: 1, duration: .4, ease: 'power2.out' });
     });
   });
 
@@ -354,24 +351,8 @@
     }
   });
 
-  /* ============ 17. CONTACT FORM ============ */
-  const contactForm = $('#contactForm');
-  contactForm?.addEventListener('submit', e => {
-    e.preventDefault();
-    const btn = contactForm.querySelector('button[type="submit"] span');
-    const orig = btn.textContent;
-    btn.textContent = '✓ تم الإرسال بنجاح';
-    contactForm.style.pointerEvents = 'none';
-    setTimeout(() => {
-      btn.textContent = orig;
-      contactForm.reset();
-      contactForm.style.pointerEvents = '';
-    }, 2500);
-  });
-
-  /* ============ 18. STATS COUNTER (ABOUT) ============ */
-  const aboutStats = $$('.about__stats .num');
-  aboutStats.forEach(el => {
+  /* ============ 17. ABOUT STATS COUNTER ============ */
+  $$('.astat .num').forEach(el => {
     const target = +el.dataset.count;
     const obj = { val: 0 };
     ScrollTrigger.create({
@@ -389,6 +370,21 @@
     });
   });
 
+  /* ============ 18. CONTACT FORM ============ */
+  const contactForm = $('#contactForm');
+  contactForm?.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('button[type="submit"] span');
+    const orig = btn.textContent;
+    btn.textContent = '✓ تم الإرسال بنجاح';
+    contactForm.style.pointerEvents = 'none';
+    setTimeout(() => {
+      btn.textContent = orig;
+      contactForm.reset();
+      contactForm.style.pointerEvents = '';
+    }, 2500);
+  });
+
   /* ============ 19. MAGNETIC BUTTONS ============ */
   if (!isTouch) {
     $$('.btn, .nav__cta, .nav__brand').forEach(el => {
@@ -404,12 +400,12 @@
     });
   }
 
-  /* ============ 20. SCROLL TRIGGER REFRESH ON LOAD ============ */
+  /* ============ 20. REFRESH ON LOAD ============ */
   window.addEventListener('load', () => {
     setTimeout(() => ScrollTrigger.refresh(), 500);
   });
 
   console.log('%c✦ Mada Craft BH ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
-  console.log('%cv2.0 — Modern Cinematic Edition', 'color:#0F3626;font-size:12px;');
+  console.log('%cv2.1 — Final Edition', 'color:#0F3626;font-size:12px;');
 
 })();
