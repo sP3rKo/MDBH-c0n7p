@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-<meta name="theme-color" content="#0F3626" />
+<meta name="theme-color" content="#F4F1EA" />
 <title>Mada Craft BH — حِرفة الخشب والأكريليك</title>
 <meta name="description" content="نصنع قطعاً فنية من الخشب والأكريليك بلمسة عصرية فاخرة." />
 
@@ -25,7 +25,11 @@
 </div>
 
 <!-- ============ CURSOR ============ -->
-<div class="cursor" id="cursor"><span id="cursorLabel"></span></div>
+<div class="cursor" id="cursor">
+  <span class="cursor__dot"></span>
+  <span class="cursor__label" id="cursorLabel"></span>
+</div>
+<div class="cursor-trail" id="cursorTrail"></div>
 
 <!-- ============ NAVBAR ============ -->
 <header class="nav" id="nav">
@@ -34,6 +38,7 @@
       <span class="nav__brand-mark">MC</span>
       <span class="nav__brand-name">Mada Craft <em>BH</em></span>
     </a>
+
     <nav class="nav__menu" id="navMenu">
       <a href="#services" class="nav__link" data-cursor="link">الخدمات</a>
       <a href="#portfolio" class="nav__link" data-cursor="link">الأعمال</a>
@@ -41,7 +46,12 @@
       <a href="#about" class="nav__link" data-cursor="link">من نحن</a>
       <a href="#contact" class="nav__link" data-cursor="link">تواصل</a>
     </nav>
+
     <div class="nav__actions">
+      <a href="tel:+97312345678" class="nav__phone" data-cursor="link">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+        <span>+973 1234 5678</span>
+      </a>
       <a href="#contact" class="nav__cta" data-cursor="link">
         <span>ابدأ مشروعك</span>
         <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
@@ -70,70 +80,133 @@
 </div>
 
 <!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <div class="hero__bg">
-    <img src="https://images.unsplash.com/photo-1611021061285-73d0b0a3e08e?w=1920&q=80&auto=format" alt="" class="hero__bg-img" fetchpriority="high" />
-    <div class="hero__veil"></div>
-    <div class="hero__noise"></div>
-  </div>
+<section class="hero" id="top" data-hero>
+  <!-- Background particles -->
+  <canvas class="hero__canvas" id="heroCanvas"></canvas>
 
-  <div class="orb orb--1"></div>
-  <div class="orb orb--2"></div>
-  <div class="orb orb--3"></div>
+  <!-- Big typographic background -->
+  <div class="hero__bg-text" aria-hidden="true">MADA</div>
 
-  <div class="hero__content">
-    <div class="hero__eyebrow" data-reveal>
-      <span class="dot"></span>
-      <span>مملكة البحرين — منذ 2014</span>
-    </div>
+  <div class="hero__inner">
 
-    <h1 class="hero__title">
-      <span class="line"><span class="word">نُحوِّل</span></span>
-      <span class="line"><span class="word">الخشب</span> <span class="word accent">والأكريليك</span></span>
-      <span class="line"><span class="word">إلى <em>تحفٍ فنية</em></span></span>
-    </h1>
+    <!-- LEFT: text -->
+    <div class="hero__text">
+      <div class="hero__eyebrow" data-hero-el>
+        <span class="dot"></span>
+        <span>Mada Craft BH — منذ 2014</span>
+      </div>
 
-    <div class="hero__meta">
-      <p class="hero__desc" data-reveal>
-        ورشة حِرفية معاصرة تجمع الدقة التكنولوجية بالروح الإنسانية، لتصنع قطعاً تدوم لأجيال.
+      <h1 class="hero__title" data-hero-title>
+        <span class="line"><span class="word" data-word>نُحوِّل</span></span>
+        <span class="line"><span class="word" data-word>الخشب</span> <span class="word" data-word>والأكريليك</span></span>
+        <span class="line"><span class="word" data-word>إلى <em>تحفٍ <span class="ink">فنية</span></em></span></span>
+      </h1>
+
+      <p class="hero__desc" data-hero-el>
+        ورشة حِرفية معاصرة في قلب المنامة، تجمع الدقة التكنولوجية
+        بالروح الإنسانية لتصنع قطعاً تدوم لأجيال.
       </p>
-      <div class="hero__cta" data-reveal>
-        <a href="#portfolio" class="btn btn--solid" data-cursor="link">
+
+      <div class="hero__cta" data-hero-el>
+        <a href="#portfolio" class="btn btn--solid" data-cursor="link" data-magnetic>
           <span>استكشف أعمالنا</span>
           <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
         </a>
-        <a href="#services" class="btn btn--line" data-cursor="link">
-          <span>خدماتنا</span>
+        <a href="#services" class="hero__play" data-cursor="link">
+          <span class="hero__play-circle">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+          <span>شاهد الورشة</span>
         </a>
       </div>
+
+      <div class="hero__trust" data-hero-el>
+        <div class="hero__avatars">
+          <img src="https://i.pravatar.cc/60?img=12" alt="" />
+          <img src="https://i.pravatar.cc/60?img=45" alt="" />
+          <img src="https://i.pravatar.cc/60?img=33" alt="" />
+          <span>+120</span>
+        </div>
+        <div class="hero__trust-text">
+          <div class="stars">★★★★★</div>
+          <span>عميل يثقون بنا</span>
+        </div>
+      </div>
     </div>
+
+    <!-- RIGHT: interactive 3D visual -->
+    <div class="hero__visual" data-hero-visual>
+      <div class="hero__stage" id="heroStage">
+
+        <!-- Main card -->
+        <div class="hero__card hero__card--main" data-hero-card data-depth="1">
+          <img src="https://images.unsplash.com/photo-1611021061285-73d0b0a3e08e?w=900&q=80" alt="Wood Craft" />
+          <div class="hero__card-shine"></div>
+          <div class="hero__card-tag">
+            <span class="tag-dot"></span>
+            <span>قيد العمل الآن</span>
+          </div>
+        </div>
+
+        <!-- Top-left small card -->
+        <div class="hero__card hero__card--small hero__card--tl" data-hero-card data-depth="2">
+          <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=600&q=80" alt="" />
+          <div class="hero__card-shine"></div>
+        </div>
+
+        <!-- Bottom-right small card -->
+        <div class="hero__card hero__card--small hero__card--br" data-hero-card data-depth="3">
+          <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=600&q=80" alt="" />
+          <div class="hero__card-shine"></div>
+        </div>
+
+        <!-- Floating stat -->
+        <div class="hero__float-stat" data-hero-card data-depth="4">
+          <span class="num" data-count="500">0</span>
+          <span class="lbl">مشروع مُنجز</span>
+        </div>
+
+        <!-- Decorative circle with SVG signature line -->
+        <svg class="hero__signature" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="hero__signature-circle" cx="100" cy="100" r="95" fill="none" stroke="#C5A059" stroke-width="1" stroke-dasharray="600" stroke-dashoffset="600" />
+          <text class="hero__signature-text">
+            <textPath href="#sigPath" startOffset="0%">HANDCRAFT • WOOD • ACRYLIC • BAHRAIN • HANDCRAFT • </textPath>
+          </text>
+          <defs>
+            <path id="sigPath" d="M 100,100 m -75,0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" />
+          </defs>
+        </svg>
+
+      </div>
+    </div>
+
   </div>
 
-  <div class="hero__side">
-    <div class="hero__stat">
-      <span class="num" data-count="500">0</span>
-      <span class="lbl">مشروع مُنجز</span>
+  <!-- BOTTOM stats -->
+  <div class="hero__bottom">
+    <div class="hero__bottom-item">
+      <span class="hero__bottom-num" data-count="10">0</span>
+      <span class="hero__bottom-lbl">سنوات خبرة</span>
     </div>
-    <div class="hero__stat">
-      <span class="num" data-count="10">0</span>
-      <span class="lbl">سنوات خبرة</span>
+    <div class="hero__bottom-item">
+      <span class="hero__bottom-num" data-count="98">0</span>
+      <span class="hero__bottom-lbl">% رضا</span>
     </div>
-    <div class="hero__stat">
-      <span class="num" data-count="98">0</span>
-      <span class="lbl">% رضا العملاء</span>
+    <div class="hero__bottom-item">
+      <span class="hero__bottom-num" data-count="15">0</span>
+      <span class="hero__bottom-lbl">حرفي ماهر</span>
     </div>
-  </div>
-
-  <div class="hero__scroll">
-    <span>SCROLL</span>
-    <div class="hero__scroll-line"></div>
+    <div class="hero__scroll">
+      <span>SCROLL</span>
+      <div class="hero__scroll-line"></div>
+    </div>
   </div>
 </section>
 
 <!-- ============ MANIFESTO ============ -->
 <section class="manifesto">
   <div class="container">
-    <p class="manifesto__text" data-split>
+    <p class="manifesto__text">
       نصنع <em>الأشياء</em> التي تُروى عنها الحكايات. قطع لا تُشترى فقط، بل <em>تُورَّث</em>. حِرفة تلمس التفاصيل الأصغر لأن الكمال يسكن هناك.
     </p>
   </div>
@@ -379,9 +452,7 @@
 
     <div class="process__list">
       <div class="pstep">
-        <div class="pstep__marker">
-          <span class="pstep__num">01</span>
-        </div>
+        <div class="pstep__marker"><span class="pstep__num">01</span></div>
         <div class="pstep__body">
           <h3>الاستماع</h3>
           <p>نبدأ بفهم رؤيتك، ذوقك، والمكان الذي ستحتله القطعة. التفاصيل الصغيرة هي ما يهم.</p>
@@ -392,9 +463,7 @@
       </div>
 
       <div class="pstep">
-        <div class="pstep__marker">
-          <span class="pstep__num">02</span>
-        </div>
+        <div class="pstep__marker"><span class="pstep__num">02</span></div>
         <div class="pstep__body">
           <h3>التصميم</h3>
           <p>يُرسم كل مشروع يدوياً ثم يُحوَّل رقمياً، لنعرض عليك نموذجاً قبل التنفيذ.</p>
@@ -405,9 +474,7 @@
       </div>
 
       <div class="pstep">
-        <div class="pstep__marker">
-          <span class="pstep__num">03</span>
-        </div>
+        <div class="pstep__marker"><span class="pstep__num">03</span></div>
         <div class="pstep__body">
           <h3>الصناعة</h3>
           <p>نستخدم أحدث تقنيات القص والحفر، مع لمسات يدوية تُضفي روح الحِرفة.</p>
@@ -418,9 +485,7 @@
       </div>
 
       <div class="pstep">
-        <div class="pstep__marker">
-          <span class="pstep__num">04</span>
-        </div>
+        <div class="pstep__marker"><span class="pstep__num">04</span></div>
         <div class="pstep__body">
           <h3>التسليم</h3>
           <p>نُغلف قطعتك بعناية ونوصلها إليك جاهزة لتزيّن المكان الذي تنتمي إليه.</p>
