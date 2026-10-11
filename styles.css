@@ -1,5 +1,5 @@
 /* ==========================================================
-   MADA CRAFT BH v2.1 — Final
+   MADA CRAFT BH v2.2 — Final Complete
    ========================================================== */
 
 :root {
@@ -633,10 +633,16 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--line);
   border-radius: 24px;
   overflow: hidden;
-  transition: all .5s var(--ease);
   display: flex;
   flex-direction: column;
   min-height: 280px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease), border-color .5s var(--ease), box-shadow .5s var(--ease);
+}
+.scard.is-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 .scard::before {
   content: '';
@@ -651,6 +657,10 @@ h1, h2, h3, h4, h5, h6 {
 .scard:hover::before {
   opacity: 1;
   transform: translateY(0);
+}
+.scard:hover {
+  border-color: var(--primary);
+  box-shadow: 0 30px 60px -30px rgba(15, 54, 38, 0.35);
 }
 .scard > * { position: relative; z-index: 1; }
 
@@ -1397,7 +1407,6 @@ a.cinfo__val:hover { color: var(--secondary); }
   .about__media { aspect-ratio: 16/12; max-height: 500px; }
   .contact__inner { grid-template-columns: 1fr; }
   .foot__grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .pgal { grid-auto-rows: auto; }
 }
 
 @media (max-width: 768px) {
