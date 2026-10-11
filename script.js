@@ -1,5 +1,5 @@
 /* ==========================================================
-   MADA CRAFT BH v2.2 — Final Complete
+   MADA CRAFT BH v3.0 — Interactive Hero Studio
    ========================================================== */
 
 (() => {
@@ -43,16 +43,26 @@
   /* ============ 2. CURSOR ============ */
   const cursor = $('#cursor');
   const cursorLabel = $('#cursorLabel');
-  let mx = 0, my = 0, cx = 0, cy = 0;
+  const cursorTrail = $('#cursorTrail');
+  let mx = 0, my = 0, cx = 0, cy = 0, tx = 0, ty = 0;
 
   if (!isTouch) {
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
+      cursorTrail.classList.add('is-active');
     });
+
     const raf = () => {
-      cx += (mx - cx) * 0.18;
-      cy += (my - cy) * 0.18;
+      // main cursor fast
+      cx += (mx - cx) * 0.22;
+      cy += (my - cy) * 0.22;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+
+      // trail slower
+      tx += (mx - tx) * 0.08;
+      ty += (my - ty) * 0.08;
+      cursorTrail.style.transform = `translate(${tx}px, ${ty}px) translate(-50%, -50%)`;
+
       requestAnimationFrame(raf);
     };
     raf();
@@ -138,33 +148,166 @@
 
   $$('[data-reveal], .manifesto__text').forEach(el => io.observe(el));
 
-  /* ============ 8. HERO INTRO ============ */
+  /* ============ 8. HERO PARTICLES CANVAS ============ */
+  const canvas = $('#heroCanvas');
+  if (canvas && !isTouch) {
+    const ctx = canvas.getContext('2d');
+    let w, h, particles = [];
+
+    const resize = () => {
+      w = canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      h = canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      canvas.style.width = canvas.offsetWidth + 'px';
+      canvas.style.height = canvas.offsetHeight + 'px';
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const count = Math.min(60, Math.floor(window.innerWidth / 25));
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2 + 0.5,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        opacity: Math.random() * 0.4 + 0.2,
+      });
+    }
+
+    let mouseX = -1000, mouseY = -1000;
+    document.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = (e.clientX - rect.left) * window.devicePixelRatio;
+      mouseY = (e.clientY - rect.top) * window.devicePixelRatio;
+    });
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // تفاعل مع الماوس
+        const dx = p.x - mouseX;
+        const dy = p.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150 * window.devicePixelRatio) {
+          const force = (150 * window.devicePixelRatio - dist) / (150 * window.devicePixelRatio);
+          p.x += (dx / dist) * force * 2;
+          p.y += (dy / dist) * force * 2;
+        }
+
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        if (p.y > h) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * window.devicePixelRatio, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(197, 160, 89, ${p.opacity})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(draw);
+    };
+    draw();
+  }
+
+  /* ============ 9. HERO — 3D STAGE MOUSE TRACKING ============ */
+  const heroStage = $('#heroStage');
+  const heroSection = $('[data-hero]');
+
+  if (heroStage && !isTouch) {
+    let targetRX = 0, targetRY = 0;
+    let currentRX = 0, currentRY = 0;
+
+    const heroRect = heroSection.getBoundingClientRect();
+
+    heroSection.addEventListener('mousemove', e => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      targetRY = x * 18; // rotate around Y (left-right)
+      targetRX = -y * 12; // rotate around X (up-down)
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      targetRX = 0; targetRY = 0;
+    });
+
+    const animateStage = () => {
+      currentRX += (targetRX - currentRX) * 0.08;
+      currentRY += (targetRY - currentRY) * 0.08;
+
+      // كل بطاقة تدور بكمية تعتمد على depth
+      $$('[data-hero-card]').forEach(card => {
+        const depth = parseFloat(card.dataset.depth) || 1;
+        const rx = currentRX * depth;
+        const ry = currentRY * depth;
+        const z = depth * 20;
+        card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(${z}px)`;
+      });
+
+      // الشين يتتبع الماوس
+      $$('.hero__card').forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const shineX = ((mx - rect.left) / rect.width) * 100;
+        const shineY = ((my - rect.top) / rect.height) * 100;
+        card.style.setProperty('--shine-x', shineX + '%');
+        card.style.setProperty('--shine-y', shineY + '%');
+      });
+
+      requestAnimationFrame(animateStage);
+    };
+    animateStage();
+  }
+
+  /* ============ 10. HERO INTRO ANIMATION ============ */
   function heroIntro() {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
     tl.to('.hero__title .word', {
         y: 0, duration: 1.15, stagger: 0.09,
       })
       .from('.hero__eyebrow', { y: 20, opacity: 0, duration: .8 }, '-=1')
       .from('.hero__desc', { y: 20, opacity: 0, duration: .8 }, '-=0.7')
       .from('.hero__cta > *', { y: 20, opacity: 0, duration: .7, stagger: .1 }, '-=0.6')
-      .from('.hero__stat', { y: 20, opacity: 0, duration: .7, stagger: .1 }, '-=0.5')
-      .from('.hero__scroll', { opacity: 0, duration: .6 }, '-=0.3');
+      .from('.hero__trust', { y: 20, opacity: 0, duration: .7 }, '-=0.5')
+      .from('.hero__card--main', { y: 60, opacity: 0, scale: 0.9, duration: 1.2 }, '-=1.2')
+      .from('.hero__card--small', { y: 40, opacity: 0, scale: 0.8, duration: 1, stagger: .15 }, '-=0.9')
+      .from('.hero__float-stat', { y: 20, opacity: 0, duration: .8 }, '-=0.6')
+      .from('.hero__signature', { scale: 0.5, opacity: 0, duration: 1.2 }, '-=0.8')
+      .from('.hero__bottom-item', { y: 20, opacity: 0, duration: .7, stagger: .1 }, '-=0.6')
+      .from('.hero__scroll', { opacity: 0, duration: .6 }, '-=0.4');
 
-    $$('.hero__stat .num').forEach(el => {
+    // Signature circle draw
+    gsap.to('.hero__signature-circle', {
+      strokeDashoffset: 0,
+      duration: 2.5,
+      ease: 'power2.inOut',
+      delay: 0.8,
+    });
+
+    // Counters
+    $$('.hero__bottom-num, .hero__float-stat .num, .hero__stat .num').forEach(el => {
       const target = +el.dataset.count;
+      if (!target) return;
       const obj = { val: 0 };
       gsap.to(obj, {
         val: target,
         duration: 2,
         ease: 'power2.out',
+        delay: 0.6,
         onUpdate: () => el.textContent = Math.floor(obj.val),
       });
     });
   }
 
-  /* ============ 9. HERO PARALLAX ============ */
-  gsap.to('.hero__bg-img', {
-    yPercent: 20,
+  /* ============ 11. HERO PARALLAX ON SCROLL ============ */
+  gsap.to('.hero__text', {
+    yPercent: -12,
+    opacity: 0.4,
     ease: 'none',
     scrollTrigger: {
       trigger: '.hero',
@@ -174,9 +317,8 @@
     }
   });
 
-  gsap.to('.hero__content', {
-    yPercent: -15,
-    opacity: 0.3,
+  gsap.to('.hero__card--small', {
+    yPercent: -20,
     ease: 'none',
     scrollTrigger: {
       trigger: '.hero',
@@ -186,21 +328,29 @@
     }
   });
 
-  /* ============ 10. ORBS PARALLAX ============ */
-  $$('.orb').forEach((orb, i) => {
-    gsap.to(orb, {
-      yPercent: -30 - i * 10,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      }
-    });
+  gsap.to('.hero__float-stat', {
+    yPercent: -25,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+    }
   });
 
-  /* ============ 11. SERVICES — Reveal (CSS-based, يعمل دائماً) ============ */
+  gsap.to('.hero__bg-text', {
+    xPercent: 15,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+    }
+  });
+
+  /* ============ 12. SERVICES — Reveal ============ */
   const servicesGrid = document.querySelector('.services__grid');
   if (servicesGrid) {
     const scardObserver = new IntersectionObserver((entries) => {
@@ -216,13 +366,12 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
     scardObserver.observe(servicesGrid);
 
-    // Fallback: إذا ما اشتغل الـ observer لأي سبب، أظهر كل الكروت بعد 3 ثواني
     setTimeout(() => {
       $$('.scard').forEach(c => c.classList.add('is-in'));
     }, 3000);
   }
 
-  /* ============ 12. PORTFOLIO FILTER ============ */
+  /* ============ 13. PORTFOLIO FILTER ============ */
   const chips = $$('.chip');
   const pcards = $$('.pcard');
 
@@ -251,7 +400,7 @@
     });
   });
 
-  /* ============ 13. PORTFOLIO LIGHTBOX ============ */
+  /* ============ 14. PORTFOLIO LIGHTBOX ============ */
   pcards.forEach(card => {
     card.addEventListener('click', () => {
       if (isTouch) return;
@@ -294,7 +443,7 @@
     });
   });
 
-  /* ============ 14. TESTIMONIALS SWIPER ============ */
+  /* ============ 15. TESTIMONIALS SWIPER ============ */
   new Swiper('.testi__swiper', {
     loop: true,
     speed: 900,
@@ -308,7 +457,7 @@
     }
   });
 
-  /* ============ 15. PROCESS — Line Progress + Reveal ============ */
+  /* ============ 16. PROCESS ============ */
   const processList = document.querySelector('.process__list');
   const psteps = $$('.pstep');
 
@@ -323,7 +472,6 @@
     });
   });
 
-  // Fallback: إظهار كل الخطوات بعد 3 ثواني إذا ما اشتغل السكرول
   setTimeout(() => {
     psteps.forEach(s => s.classList.add('is-in'));
   }, 3000);
@@ -349,7 +497,7 @@
     });
   });
 
-  /* ============ 16. ABOUT MEDIA PARALLAX ============ */
+  /* ============ 17. ABOUT PARALLAX ============ */
   gsap.to('.about__media img', {
     yPercent: -8,
     ease: 'none',
@@ -361,7 +509,7 @@
     }
   });
 
-  /* ============ 17. ABOUT STATS COUNTER ============ */
+  /* ============ 18. ABOUT STATS COUNTER ============ */
   $$('.astat .num').forEach(el => {
     const target = +el.dataset.count;
     const obj = { val: 0 };
@@ -380,7 +528,7 @@
     });
   });
 
-  /* ============ 18. CONTACT FORM ============ */
+  /* ============ 19. CONTACT FORM ============ */
   const contactForm = $('#contactForm');
   contactForm?.addEventListener('submit', e => {
     e.preventDefault();
@@ -395,14 +543,22 @@
     }, 2500);
   });
 
-  /* ============ 19. MAGNETIC BUTTONS ============ */
+  /* ============ 20. MAGNETIC BUTTONS ============ */
   if (!isTouch) {
-    $$('.btn, .nav__cta, .nav__brand').forEach(el => {
+    $$('[data-magnetic], .btn, .nav__cta, .nav__brand').forEach(el => {
       el.addEventListener('mousemove', e => {
         const r = el.getBoundingClientRect();
         const x = e.clientX - r.left - r.width / 2;
         const y = e.clientY - r.top - r.height / 2;
         el.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+
+        // Radial highlight for solid button
+        if (el.classList.contains('btn--solid')) {
+          const shineX = ((e.clientX - r.left) / r.width) * 100;
+          const shineY = ((e.clientY - r.top) / r.height) * 100;
+          el.style.setProperty('--mx', shineX + '%');
+          el.style.setProperty('--my', shineY + '%');
+        }
       });
       el.addEventListener('mouseleave', () => {
         el.style.transform = '';
@@ -410,12 +566,45 @@
     });
   }
 
-  /* ============ 20. REFRESH ON LOAD ============ */
+  /* ============ 21. WORD HOVER SPLIT ============ */
+  // Split each hero word into individual letter spans for hover effect
+  if (!isTouch) {
+    $$('.hero__title .word').forEach(word => {
+      const originalText = word.textContent;
+      // skip if contains em or ink
+      if (word.querySelector('em') || word.querySelector('.ink')) return;
+
+      const letters = originalText.split('');
+      word.innerHTML = letters.map(l => `<span style="display:inline-block; transition: transform .3s var(--ease);">${l === ' ' ? '&nbsp;' : l}</span>`).join('');
+
+      const letterSpans = word.querySelectorAll('span');
+      letterSpans.forEach((span, i) => {
+        span.addEventListener('mouseenter', () => {
+          gsap.to(span, {
+            y: -8,
+            color: '#C5A059',
+            duration: 0.25,
+            ease: 'power2.out',
+          });
+        });
+        span.addEventListener('mouseleave', () => {
+          gsap.to(span, {
+            y: 0,
+            color: '',
+            duration: 0.4,
+            ease: 'elastic.out(1, 0.5)',
+          });
+        });
+      });
+    });
+  }
+
+  /* ============ 22. REFRESH ON LOAD ============ */
   window.addEventListener('load', () => {
     setTimeout(() => ScrollTrigger.refresh(), 500);
   });
 
-  console.log('%c✦ Mada Craft BH ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
-  console.log('%cv2.2 — Final Complete', 'color:#0F3626;font-size:12px;');
+  console.log('%c✦ Mada Craft BH v3.0 ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
+  console.log('%cInteractive Hero Studio — Creative Edition', 'color:#0F3626;font-size:12px;');
 
 })();
