@@ -1,480 +1,617 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mada Craft BH | فن الطباعة على الخشب والأكريليك</title>
-    <meta name="description" content="Mada Craft BH - محل تجارة وطباعة على الخشب والأكريليك بأعلى معايير الحِرفية والفخامة" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0F3626" />
+<title>Mada Craft BH — حِرفة الخشب والأكريليك</title>
+<meta name="description" content="نصنع قطعاً فنية من الخشب والأكريليك بلمسة عصرية فاخرة." />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-    <!-- ==================== PRELOADER ==================== -->
-    <div class="preloader" id="preloader">
-        <div class="preloader__inner">
-            <div class="preloader__logo">
-                <span class="preloader__logo-text">M</span>
-                <span class="preloader__logo-text">C</span>
-            </div>
-            <div class="preloader__bar"><span></span></div>
-            <p class="preloader__tagline">MADA CRAFT BH</p>
-        </div>
+<!-- ============ PRELOADER ============ -->
+<div class="loader" id="loader">
+  <div class="loader__inner">
+    <div class="loader__title" id="loaderTitle"></div>
+    <div class="loader__progress"><span id="loaderBar"></span></div>
+    <div class="loader__counter"><span id="loaderCount">0</span>%</div>
+  </div>
+</div>
+
+<!-- ============ CURSOR ============ -->
+<div class="cursor" id="cursor"><span id="cursorLabel"></span></div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__brand" data-cursor="link">
+      <span class="nav__brand-mark">MC</span>
+      <span class="nav__brand-name">Mada Craft <em>BH</em></span>
+    </a>
+    <nav class="nav__menu" id="navMenu">
+      <a href="#services" class="nav__link" data-cursor="link">الخدمات</a>
+      <a href="#portfolio" class="nav__link" data-cursor="link">الأعمال</a>
+      <a href="#process" class="nav__link" data-cursor="link">طريقتنا</a>
+      <a href="#about" class="nav__link" data-cursor="link">من نحن</a>
+      <a href="#contact" class="nav__link" data-cursor="link">تواصل</a>
+    </nav>
+    <div class="nav__actions">
+      <a href="#contact" class="nav__cta" data-cursor="link">
+        <span>ابدأ مشروعك</span>
+        <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </a>
+      <button class="nav__burger" id="burger" aria-label="القائمة">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav__progress"><span id="navProgress"></span></div>
+</header>
+
+<!-- ============ MOBILE MENU ============ -->
+<div class="mmenu" id="mmenu">
+  <div class="mmenu__inner">
+    <a href="#services" class="mmenu__link"><span>01</span>الخدمات</a>
+    <a href="#portfolio" class="mmenu__link"><span>02</span>الأعمال</a>
+    <a href="#process" class="mmenu__link"><span>03</span>طريقتنا</a>
+    <a href="#about" class="mmenu__link"><span>04</span>من نحن</a>
+    <a href="#contact" class="mmenu__link"><span>05</span>تواصل</a>
+    <div class="mmenu__footer">
+      <span>hello@madacraft.bh</span>
+      <span>+973 1234 5678</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero__bg">
+    <img src="https://images.unsplash.com/photo-1611021061285-73d0b0a3e08e?w=1920&q=80&auto=format" alt="" class="hero__bg-img" fetchpriority="high" />
+    <div class="hero__veil"></div>
+    <div class="hero__noise"></div>
+  </div>
+
+  <!-- Floating orbs -->
+  <div class="orb orb--1"></div>
+  <div class="orb orb--2"></div>
+  <div class="orb orb--3"></div>
+
+  <div class="hero__content">
+    <div class="hero__eyebrow" data-reveal>
+      <span class="dot"></span>
+      <span>مملكة البحرين — منذ 2014</span>
     </div>
 
-    <!-- ==================== CUSTOM CURSOR ==================== -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-follower" id="cursorFollower"></div>
+    <h1 class="hero__title">
+      <span class="line"><span class="word">نُحوِّل</span></span>
+      <span class="line"><span class="word">الخشب</span> <span class="word accent">والأكريليك</span></span>
+      <span class="line"><span class="word">إلى <em>تحفٍ فنية</em></span></span>
+    </h1>
 
-    <!-- ==================== NAVBAR ==================== -->
-    <header class="navbar" id="navbar">
-        <div class="navbar__container">
-            <a href="#" class="navbar__logo" data-cursor="hover">
-                <span class="logo-mark">MC</span>
-                <span class="logo-text">Mada Craft <em>BH</em></span>
-            </a>
+    <div class="hero__meta">
+      <p class="hero__desc" data-reveal>
+        ورشة حِرفية معاصرة تجمع الدقة التكنولوجية
+        بالروح الإنسانية، لتصنع قطعاً تدوم لأجيال.
+      </p>
+      <div class="hero__cta" data-reveal>
+        <a href="#portfolio" class="btn btn--solid" data-cursor="link">
+          <span>استكشف أعمالنا</span>
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        </a>
+        <a href="#services" class="btn btn--line" data-cursor="link">
+          <span>خدماتنا</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
-            <nav class="navbar__nav" id="navMenu">
-                <a href="#home" class="nav-link">الرئيسية</a>
-                <a href="#services" class="nav-link">خدماتنا</a>
-                <a href="#portfolio" class="nav-link">معرض الأعمال</a>
-                <a href="#about" class="nav-link">من نحن</a>
-                <a href="#testimonials" class="nav-link">آراء العملاء</a>
-                <a href="#contact" class="nav-link">تواصل معنا</a>
-            </nav>
+  <div class="hero__side">
+    <div class="hero__stat">
+      <span class="num" data-count="500">0</span>
+      <span class="lbl">مشروع مُنجز</span>
+    </div>
+    <div class="hero__stat">
+      <span class="num" data-count="10">0</span>
+      <span class="lbl">سنوات خبرة</span>
+    </div>
+    <div class="hero__stat">
+      <span class="num" data-count="98">0</span>
+      <span class="lbl">% رضا العملاء</span>
+    </div>
+  </div>
 
-            <div class="navbar__actions">
-                <button class="lang-toggle" id="langToggle" data-cursor="hover">EN</button>
-                <a href="#contact" class="btn btn--primary" data-cursor="hover">اطلب الآن</a>
-                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
+  <div class="hero__scroll">
+    <span>SCROLL</span>
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto">
+  <div class="container">
+    <p class="manifesto__text" data-split>
+      نصنع <em>الأشياء</em> التي تُروى عنها الحكايات. قطع لا تُشترى فقط، بل <em>تُورَّث</em>. حِرفة تلمس التفاصيل الأصغر لأن الكمال يسكن هناك.
+    </p>
+  </div>
+</section>
+
+<!-- ============ SERVICES — HORIZONTAL SCROLL ============ -->
+<section class="services" id="services">
+  <div class="services__sticky">
+    <div class="services__header container">
+      <div>
+        <span class="tag">٠١ — الخدمات</span>
+        <h2 class="h2">ما الذي نُتقنه</h2>
+      </div>
+      <div class="services__hint">
+        <span>اسحب للمزيد</span>
+        <div class="arrow">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
         </div>
-    </header>
-
-    <!-- ==================== HERO SECTION ==================== -->
-    <section class="hero" id="home">
-        <div class="hero__bg">
-            <img src="https://images.unsplash.com/photo-1611021061285-73d0b0a3e08e?w=1920&q=80" alt="Wood Craft" class="hero__bg-img" />
-            <div class="hero__overlay"></div>
-            <div class="hero__grain"></div>
-        </div>
-
-        <div class="hero__content">
-            <span class="hero__eyebrow" data-reveal>✦ حِرفية يدوية عالية الجودة ✦</span>
-            <h1 class="hero__title">
-                <span class="line" data-reveal>نُحوّل الخشب</span>
-                <span class="line" data-reveal>والأكريليك إلى</span>
-                <span class="line gradient" data-reveal>تحف فنية</span>
-            </h1>
-            <p class="hero__desc" data-reveal>
-                في <strong>Mada Craft BH</strong> نصنع قطعاً فريدة من نوعها تجمع بين
-                الأناقة العصرية واللمسة الحِرفية الأصيلة.
-            </p>
-            <div class="hero__cta" data-reveal>
-                <a href="#portfolio" class="btn btn--primary" data-cursor="hover">
-                    استكشف أعمالنا
-                    <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-                </a>
-                <a href="#services" class="btn btn--ghost" data-cursor="hover">تعرف علينا</a>
-            </div>
-
-            <div class="hero__stats">
-                <div class="hero__stat"><span class="num" data-count="500">0</span><span>+ مشروع</span></div>
-                <div class="hero__stat"><span class="num" data-count="10">0</span><span>+ سنوات خبرة</span></div>
-                <div class="hero__stat"><span class="num" data-count="98">0</span><span>% رضا</span></div>
-            </div>
-        </div>
-
-        <div class="hero__scroll-hint">
-            <span>اسحب للأسفل</span>
-            <div class="scroll-line"></div>
-        </div>
-    </section>
-
-    <!-- ==================== MARQUEE ==================== -->
-    <div class="marquee">
-        <div class="marquee__track">
-            <span>✦ WOOD CRAFT ✦ ACRYLIC ART ✦ CUSTOM DESIGN ✦ HANDMADE ✦ LASER CUT ✦ ENGRAVING ✦ WOOD CRAFT ✦ ACRYLIC ART ✦ CUSTOM DESIGN ✦ HANDMADE ✦ LASER CUT ✦ ENGRAVING ✦</span>
-            <span>✦ WOOD CRAFT ✦ ACRYLIC ART ✦ CUSTOM DESIGN ✦ HANDMADE ✦ LASER CUT ✦ ENGRAVING ✦ WOOD CRAFT ✦ ACRYLIC ART ✦ CUSTOM DESIGN ✦ HANDMADE ✦ LASER CUT ✦ ENGRAVING ✦</span>
-        </div>
+      </div>
     </div>
 
-    <!-- ==================== SERVICES ==================== -->
-    <section class="services section" id="services">
-        <div class="container">
-            <div class="section__head">
-                <span class="section__tag" data-reveal>خدماتنا</span>
-                <h2 class="section__title" data-reveal>ما الذي نُتقنه</h2>
-                <p class="section__desc" data-reveal>
-                    نقدم مجموعة شاملة من الخدمات الحِرفية بأحدث التقنيات وأيدي حرفيين مهرة.
-                </p>
-            </div>
-
-            <div class="services__grid">
-                <article class="service-card tilt" data-reveal data-cursor="hover">
-                    <div class="service-card__icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                    </div>
-                    <h3>الطباعة على الخشب</h3>
-                    <p>نقوشات وأعمال خشبية دقيقة بتقنيات حديثة تحافظ على طبيعة الخشب الدافئة.</p>
-                    <div class="service-card__num">01</div>
-                </article>
-
-                <article class="service-card tilt" data-reveal data-cursor="hover">
-                    <div class="service-card__icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
-                    </div>
-                    <h3>الطباعة على الأكريليك</h3>
-                    <p>تصاميم أكريليك شفافة ومضيئة بألوان زاهية وخطوط نظيفة.</p>
-                    <div class="service-card__num">02</div>
-                </article>
-
-                <article class="service-card tilt" data-reveal data-cursor="hover">
-                    <div class="service-card__icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
-                    </div>
-                    <h3>الهدايا المخصصة</h3>
-                    <p>هدايا تذكارية فريدة منقوشة بالأسماء والتواريخ لتصبح ذكرى لا تُنسى.</p>
-                    <div class="service-card__num">03</div>
-                </article>
-
-                <article class="service-card tilt" data-reveal data-cursor="hover">
-                    <div class="service-card__icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
-                    </div>
-                    <h3>اللوجو والتوقيعات</h3>
-                    <p>تصميم وتنفيذ شعارات ومونوجرامات بأسلوب راقٍ يخلد علامتك التجارية.</p>
-                    <div class="service-card__num">04</div>
-                </article>
-
-                <article class="service-card tilt" data-reveal data-cursor="hover">
-                    <div class="service-card__icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 20h20M5 20V8l7-5 7 5v12M9 20v-6h6v6"/></svg>
-                    </div>
-                    <h3>الديكور الداخلي</h3>
-                    <p>قطع ديكورية مخصصة للمنازل والمكاتب والفنادق بروح فنية عصرية.</p>
-                    <div class="service-card__num">05</div>
-                </article>
-
-                <article class="service-card tilt" data-reveal data-cursor="hover">
-                    <div class="service-card__icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5"/></svg>
-                    </div>
-                    <h3>قص الليزر</h3>
-                    <p>دقة متناهية في القص والحفر بالليزر على مختلف المواد والسمكات.</p>
-                    <div class="service-card__num">06</div>
-                </article>
-            </div>
+    <div class="services__track" id="servicesTrack">
+      <article class="scard" data-cursor="drag">
+        <div class="scard__num">01</div>
+        <div class="scard__icon">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         </div>
-    </section>
+        <h3>الطباعة على الخشب</h3>
+        <p>نقوشات وأعمال خشبية دقيقة تحافظ على دفء الخشب الطبيعي وعبق الأصالة.</p>
+        <div class="scard__bg"></div>
+      </article>
 
-    <!-- ==================== PORTFOLIO ==================== -->
-    <section class="portfolio section" id="portfolio">
-        <div class="container">
-            <div class="section__head">
-                <span class="section__tag" data-reveal>أعمالنا</span>
-                <h2 class="section__title" data-reveal>معرض التحف الفنية</h2>
-                <p class="section__desc" data-reveal>
-                    مختارات من أعمالنا التي تجمع بين الإتقان والذوق الرفيع.
-                </p>
-            </div>
-
-            <div class="portfolio__filter" data-reveal>
-                <button class="filter-btn active" data-filter="all">الكل</button>
-                <button class="filter-btn" data-filter="wood">الخشب</button>
-                <button class="filter-btn" data-filter="acrylic">الأكريليك</button>
-                <button class="filter-btn" data-filter="gifts">الهدايا</button>
-                <button class="filter-btn" data-filter="decor">الديكور</button>
-            </div>
-
-            <div class="portfolio__grid" id="portfolioGrid">
-                <figure class="portfolio-item" data-cat="wood" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1611021061285-73d0b0a3e08e?w=800&q=80" alt="Wood Sign" loading="lazy" />
-                    <figcaption><h4>لوحة خشبية محفورة</h4><span>Wood Craft</span></figcaption>
-                </figure>
-                <figure class="portfolio-item" data-cat="acrylic" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=800&q=80" alt="Acrylic Art" loading="lazy" />
-                    <figcaption><h4>تصميم أكريليك مضيء</h4><span>Acrylic Art</span></figcaption>
-                </figure>
-                <figure class="portfolio-item" data-cat="gifts" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=80" alt="Gift" loading="lazy" />
-                    <figcaption><h4>هدية تذكارية</h4><span>Custom Gift</span></figcaption>
-                </figure>
-                <figure class="portfolio-item" data-cat="decor" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&q=80" alt="Decor" loading="lazy" />
-                    <figcaption><h4>ديكور جداري</h4><span>Wall Decor</span></figcaption>
-                </figure>
-                <figure class="portfolio-item" data-cat="wood" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80" alt="Wood Logo" loading="lazy" />
-                    <figcaption><h4>شعار خشبي</h4><span>Wood Logo</span></figcaption>
-                </figure>
-                <figure class="portfolio-item" data-cat="acrylic" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Acrylic Sign" loading="lazy" />
-                    <figcaption><h4>لوحة أكريليك</h4><span>Acrylic Sign</span></figcaption>
-                </figure>
-                <figure class="portfolio-item" data-cat="gifts" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80" alt="Gift Box" loading="lazy" />
-                    <figcaption><h4>صندوق هدايا محفور</h4><span>Gift Box</span></figcaption>
-                </figure>
-                <figure class="portfolio-item" data-cat="decor" data-reveal data-cursor="view">
-                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80" alt="Decor Piece" loading="lazy" />
-                    <figcaption><h4>قطعة ديكورية</h4><span>Decor Piece</span></figcaption>
-                </figure>
-            </div>
+      <article class="scard" data-cursor="drag">
+        <div class="scard__num">02</div>
+        <div class="scard__icon">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6v6H9z"/></svg>
         </div>
-    </section>
+        <h3>الطباعة على الأكريليك</h3>
+        <p>تصاميم شفافة ومضيئة بألوان زاهية وخطوط نظيفة تُضيء المكان.</p>
+        <div class="scard__bg"></div>
+      </article>
 
-    <!-- ==================== ABOUT ==================== -->
-    <section class="about section" id="about">
-        <div class="container about__inner">
-            <div class="about__media" data-reveal>
-                <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&q=80" alt="Workshop" loading="lazy" />
-                <div class="about__badge">
-                    <span class="num">10+</span>
-                    <span>سنوات من الإتقان</span>
-                </div>
-            </div>
-
-            <div class="about__content">
-                <span class="section__tag" data-reveal>من نحن</span>
-                <h2 class="section__title" data-reveal>قصة شغف بدأت منذ 2014</h2>
-                <p data-reveal>
-                    في <strong>Mada Craft BH</strong> نؤمن أن كل قطعة خشب أو أكريليك تحمل قصة تنتظر أن تُروى.
-                    بدأنا كورشة صغيرة، واليوم أصبحنا علامة تجارية رائدة في عالم الحِرف الفاخرة.
-                </p>
-                <p data-reveal>
-                    نجمع بين التقاليد الحِرفية والتقنيات الحديثة، لنقدم قطعاً فنية تدوم لأجيال.
-                </p>
-
-                <div class="about__features">
-                    <div class="feature" data-reveal>
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg>
-                        <span>مواد أصلية عالية الجودة</span>
-                    </div>
-                    <div class="feature" data-reveal>
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg>
-                        <span>تصميم مخصص لكل عميل</span>
-                    </div>
-                    <div class="feature" data-reveal>
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg>
-                        <span>تسليم في الوقت المحدد</span>
-                    </div>
-                    <div class="feature" data-reveal>
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg>
-                        <span>ضمان على جميع الأعمال</span>
-                    </div>
-                </div>
-
-                <a href="#contact" class="btn btn--primary" data-reveal data-cursor="hover">ابدأ مشروعك</a>
-            </div>
+      <article class="scard" data-cursor="drag">
+        <div class="scard__num">03</div>
+        <div class="scard__icon">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
         </div>
-    </section>
+        <h3>الهدايا المخصصة</h3>
+        <p>هدايا تذكارية منقوشة بالأسماء والتواريخ لتصبح ذكرى لا تُنسى.</p>
+        <div class="scard__bg"></div>
+      </article>
 
-    <!-- ==================== TESTIMONIALS ==================== -->
-    <section class="testimonials section" id="testimonials">
-        <div class="container">
-            <div class="section__head">
-                <span class="section__tag" data-reveal>آراء العملاء</span>
-                <h2 class="section__title" data-reveal>ماذا يقولون عنا</h2>
-            </div>
-
-            <div class="swiper testimonials__swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial">
-                            <div class="testimonial__stars">★★★★★</div>
-                            <p>"تجربة راقية من البداية للنهاية. النقش على الخشب كان بدقة مذهلة والألوان ثابتة."</p>
-                            <div class="testimonial__author">
-                                <img src="https://i.pravatar.cc/80?img=12" alt="Client" />
-                                <div><strong>أحمد المنصوري</strong><span>مؤسس علامة تجارية</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial">
-                            <div class="testimonial__stars">★★★★★</div>
-                            <p>"طلبت هدية زفاف مخصصة وكانت النتيجة تفوق التوقعات. شكراً Mada Craft BH."</p>
-                            <div class="testimonial__author">
-                                <img src="https://i.pravatar.cc/80?img=45" alt="Client" />
-                                <div><strong>سارة العبيدلي</strong><span>عميلة خاصة</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial">
-                            <div class="testimonial__stars">★★★★★</div>
-                            <p>"احترافية عالية وجودة تنفيذ ممتازة. تعاملنا معهم في مشروع ديكور كامل ونتطلع لمزيد."</p>
-                            <div class="testimonial__author">
-                                <img src="https://i.pravatar.cc/80?img=33" alt="Client" />
-                                <div><strong>محمد الكعبي</strong><span>مدير داخلي</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
+      <article class="scard" data-cursor="drag">
+        <div class="scard__num">04</div>
+        <div class="scard__icon">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
         </div>
-    </section>
+        <h3>اللوجو والمونوجرام</h3>
+        <p>شعارات وتوقيعات مصممة بأسلوب راقٍ يخلّد علامتك التجارية.</p>
+        <div class="scard__bg"></div>
+      </article>
 
-    <!-- ==================== CTA BANNER ==================== -->
-    <section class="cta-banner">
-        <div class="cta-banner__content" data-reveal>
-            <h2>هل لديك فكرة مشروع؟</h2>
-            <p>حوّل فكرتك إلى قطعة فنية خالدة مع فريق Mada Craft BH.</p>
-            <a href="#contact" class="btn btn--primary" data-cursor="hover">تواصل معنا الآن</a>
+      <article class="scard" data-cursor="drag">
+        <div class="scard__num">05</div>
+        <div class="scard__icon">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 20h20M5 20V8l7-5 7 5v12M9 20v-6h6v6"/></svg>
         </div>
-    </section>
+        <h3>الديكور الداخلي</h3>
+        <p>قطع ديكورية مخصصة للمنازل والفنادق بروح فنية معاصرة.</p>
+        <div class="scard__bg"></div>
+      </article>
 
-    <!-- ==================== CONTACT ==================== -->
-    <section class="contact section" id="contact">
-        <div class="container">
-            <div class="section__head">
-                <span class="section__tag" data-reveal>تواصل معنا</span>
-                <h2 class="section__title" data-reveal>لنصنع شيئاً استثنائياً</h2>
-            </div>
-
-            <div class="contact__inner">
-                <form class="contact__form glass" id="contactForm" data-reveal>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>الاسم الكامل</label>
-                            <input type="text" required placeholder="اكتب اسمك" />
-                        </div>
-                        <div class="form-group">
-                            <label>البريد الإلكتروني</label>
-                            <input type="email" required placeholder="example@mail.com" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>نوع الخدمة</label>
-                        <select required>
-                            <option value="">اختر الخدمة</option>
-                            <option>الطباعة على الخشب</option>
-                            <option>الطباعة على الأكريليك</option>
-                            <option>هدايا مخصصة</option>
-                            <option>ديكور داخلي</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>رسالتك</label>
-                        <textarea rows="5" required placeholder="أخبرنا عن مشروعك..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn--primary btn--full" data-cursor="hover">
-                        إرسال الرسالة
-                    </button>
-                </form>
-
-                <div class="contact__info" data-reveal>
-                    <div class="info-card glass">
-                        <div class="info-card__icon">
-                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                        </div>
-                        <h4>العنوان</h4>
-                        <p>مملكة البحرين - المنامة<br/>شارع الحِرفة</p>
-                    </div>
-                    <div class="info-card glass">
-                        <div class="info-card__icon">
-                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
-                        </div>
-                        <h4>الهاتف</h4>
-                        <p>+973 1234 5678<br/>+973 8765 4321</p>
-                    </div>
-                    <div class="info-card glass">
-                        <div class="info-card__icon">
-                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
-                        </div>
-                        <h4>البريد</h4>
-                        <p>hello@madacraft.bh</p>
-                    </div>
-                    <div class="contact__map">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57498.71748116025!2d50.53301595!3d26.2285161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDEzJzQyLjciTiA1MMKwMzInMDcuNiJF!5e0!3m2!1sar!2sbh!4v1700000000000"
-                            loading="lazy" title="Mada Craft BH Location"></iframe>
-                    </div>
-                </div>
-            </div>
+      <article class="scard" data-cursor="drag">
+        <div class="scard__num">06</div>
+        <div class="scard__icon">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5"/></svg>
         </div>
-    </section>
+        <h3>قص الليزر</h3>
+        <p>دقة متناهية في القص والحفر على مختلف المواد والسمكات.</p>
+        <div class="scard__bg"></div>
+      </article>
+    </div>
+  </div>
+</section>
 
-    <!-- ==================== FOOTER ==================== -->
-    <footer class="footer">
-        <div class="container footer__inner">
-            <div class="footer__brand">
-                <span class="logo-mark">MC</span>
-                <h3>Mada Craft BH</h3>
-                <p>حيث يلتقي الفن بالحِرفة لتصنع قطعاً خالدة.</p>
-                <div class="footer__social">
-                    <a href="#" aria-label="Instagram" data-cursor="hover">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
-                    </a>
-                    <a href="#" aria-label="Facebook" data-cursor="hover">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                    </a>
-                    <a href="#" aria-label="TikTok" data-cursor="hover">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-                    </a>
-                    <a href="#" aria-label="WhatsApp" data-cursor="hover">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 21l2.1-5.3A8.5 8.5 0 1 1 21 11.5Z"/></svg>
-                    </a>
-                </div>
-            </div>
+<!-- ============ PORTFOLIO — INTERACTIVE ============ -->
+<section class="portfolio" id="portfolio">
+  <div class="container">
+    <div class="portfolio__head">
+      <div>
+        <span class="tag">٠٢ — الأعمال</span>
+        <h2 class="h2">مختارات من<br/><em>معرضنا</em></h2>
+      </div>
+      <div class="portfolio__filter" id="filter">
+        <button class="chip active" data-filter="all" data-cursor="link">الكل</button>
+        <button class="chip" data-filter="wood" data-cursor="link">خشب</button>
+        <button class="chip" data-filter="acrylic" data-cursor="link">أكريليك</button>
+        <button class="chip" data-filter="gift" data-cursor="link">هدايا</button>
+        <button class="chip" data-filter="decor" data-cursor="link">ديكور</button>
+      </div>
+    </div>
 
-            <div class="footer__col">
-                <h4>روابط سريعة</h4>
-                <a href="#home">الرئيسية</a>
-                <a href="#services">خدماتنا</a>
-                <a href="#portfolio">أعمالنا</a>
-                <a href="#about">من نحن</a>
-            </div>
-
-            <div class="footer__col">
-                <h4>خدماتنا</h4>
-                <a href="#">الطباعة على الخشب</a>
-                <a href="#">الطباعة على الأكريليك</a>
-                <a href="#">هدايا مخصصة</a>
-                <a href="#">قص الليزر</a>
-            </div>
-
-            <div class="footer__newsletter">
-                <h4>النشرة البريدية</h4>
-                <p>اشترك ليصلك جديد أعمالنا.</p>
-                <form class="newsletter" onsubmit="event.preventDefault(); this.reset(); alert('شكراً لاشتراكك!');">
-                    <input type="email" placeholder="بريدك الإلكتروني" required />
-                    <button type="submit" aria-label="Subscribe" data-cursor="hover">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-                    </button>
-                </form>
-            </div>
+    <div class="pgal" id="pgal">
+      <article class="pcard pcard--lg" data-cat="wood" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1611021061285-73d0b0a3e08e?w=1200&q=80" alt="لوحة خشبية" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
         </div>
-
-        <div class="footer__bottom">
-            <p>© 2025 Mada Craft BH. جميع الحقوق محفوظة.</p>
-            <p>صُنع بشغف في مملكة البحرين 🇧🇭</p>
+        <div class="pcard__info">
+          <h3>لوحة خشبية محفورة</h3>
+          <span>Wood Craft</span>
         </div>
-    </footer>
+      </article>
 
-    <!-- ==================== BACK TO TOP ==================== -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top" data-cursor="hover">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 7-7 7 7M12 19V5"/></svg>
-    </button>
+      <article class="pcard" data-cat="acrylic" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=800&q=80" alt="أكريليك" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="pcard__info">
+          <h3>تصميم أكريليك مضيء</h3>
+          <span>Acrylic Art</span>
+        </div>
+      </article>
 
-    <!-- ==================== LIBRARIES ==================== -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      <article class="pcard" data-cat="gift" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=80" alt="هدية" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="pcard__info">
+          <h3>هدية تذكارية</h3>
+          <span>Custom Gift</span>
+        </div>
+      </article>
 
-    <script src="script.js"></script>
+      <article class="pcard pcard--tall" data-cat="decor" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&q=80" alt="ديكور" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="pcard__info">
+          <h3>ديكور جداري</h3>
+          <span>Wall Decor</span>
+        </div>
+      </article>
+
+      <article class="pcard" data-cat="wood" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80" alt="شعار خشبي" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="pcard__info">
+          <h3>شعار خشبي</h3>
+          <span>Wood Logo</span>
+        </div>
+      </article>
+
+      <article class="pcard" data-cat="acrylic" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="أكريليك" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="pcard__info">
+          <h3>لوحة أكريليك</h3>
+          <span>Acrylic Sign</span>
+        </div>
+      </article>
+
+      <article class="pcard pcard--lg" data-cat="decor" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80" alt="ديكور" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="pcard__info">
+          <h3>قطعة ديكورية</h3>
+          <span>Decor Piece</span>
+        </div>
+      </article>
+
+      <article class="pcard" data-cat="gift" data-cursor="view">
+        <div class="pcard__media">
+          <img src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&q=80" alt="صندوق" loading="lazy" />
+          <div class="pcard__hover">
+            <span>عرض المشروع</span>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="pcard__info">
+          <h3>صندوق هدايا</h3>
+          <span>Gift Box</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS — STICKY CINEMATIC ============ -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="process__head">
+      <span class="tag">٠٣ — طريقتنا</span>
+      <h2 class="h2">أربع خطوات<br/>إلى <em>التحفة</em></h2>
+    </div>
+
+    <div class="process__list">
+      <div class="pstep">
+        <div class="pstep__num"><span>٠١</span></div>
+        <div class="pstep__body">
+          <h3>الاستماع</h3>
+          <p>نبدأ بفهم رؤيتك، ذوقك، والمكان الذي ستحتله القطعة. التفاصيل الصغيرة هي ما يهم.</p>
+        </div>
+      </div>
+      <div class="pstep">
+        <div class="pstep__num"><span>٠٢</span></div>
+        <div class="pstep__body">
+          <h3>التصميم</h3>
+          <p>يُرسم كل مشروع يدوياً ثم يُحوَّل رقمياً، لنعرض عليك نموذجاً قبل التنفيذ.</p>
+        </div>
+      </div>
+      <div class="pstep">
+        <div class="pstep__num"><span>٠٣</span></div>
+        <div class="pstep__body">
+          <h3>الصناعة</h3>
+          <p>نستخدم أحدث تقنيات القص والحفر، مع لمسات يدوية تُضفي روح الحِرفة.</p>
+        </div>
+      </div>
+      <div class="pstep">
+        <div class="pstep__num"><span>٠٤</span></div>
+        <div class="pstep__body">
+          <h3>التسليم</h3>
+          <p>نُغلف قطعتك بعناية ونوصلها إليك جاهزة لتزيّن المكان الذي تنتمي إليه.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="container about__inner">
+    <div class="about__media">
+      <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=1000&q=80" alt="الورشة" loading="lazy" />
+      <div class="about__float">
+        <span class="num">10+</span>
+        <span>سنوات من الشغف</span>
+      </div>
+    </div>
+    <div class="about__content">
+      <span class="tag">٠٤ — من نحن</span>
+      <h2 class="h2">قصة بدأت<br/>في ورشة صغيرة</h2>
+      <p>في <strong>Mada Craft BH</strong>، نؤمن أن كل قطعة خشب أو أكريليك تحمل قصة تنتظر أن تُروى. بدأنا عام 2014 كورشة صغيرة في المنامة، واليوم أصبحنا بيتاً لصناعة التحف.</p>
+      <p>نخلط بين التقليد الحِرفي والتقنية الحديثة، لنصنع قطعاً فريدة تحمل بصمة إنسانية.</p>
+
+      <div class="about__stats">
+        <div class="astat"><span class="num" data-count="500">0</span><span>+ مشروع</span></div>
+        <div class="astat"><span class="num" data-count="120">0</span><span>+ عميل</span></div>
+        <div class="astat"><span class="num" data-count="15">0</span><span>+ حرفي</span></div>
+      </div>
+
+      <a href="#contact" class="btn btn--solid" data-cursor="link">
+        <span>ابدأ مشروعك</span>
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testi">
+  <div class="container">
+    <div class="testi__head">
+      <span class="tag">٠٥ — كلامهم</span>
+      <h2 class="h2">ما يقولونه<br/>عنا</h2>
+    </div>
+
+    <div class="swiper testi__swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="tcard">
+            <div class="tcard__quote">"</div>
+            <p>تجربة راقية من البداية للنهاية. النقش على الخشب كان بدقة مذهلة والألوان ثابتة منذ سنتين.</p>
+            <div class="tcard__author">
+              <img src="https://i.pravatar.cc/80?img=12" alt="أحمد" />
+              <div><strong>أحمد المنصوري</strong><span>مؤسس علامة تجارية</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="tcard">
+            <div class="tcard__quote">"</div>
+            <p>طلبت هدية زفاف مخصصة وكانت النتيجة تفوق كل التوقعات. اهتمام لا يوصف بالتفاصيل.</p>
+            <div class="tcard__author">
+              <img src="https://i.pravatar.cc/80?img=45" alt="سارة" />
+              <div><strong>سارة العبيدلي</strong><span>عميلة خاصة</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="tcard">
+            <div class="tcard__quote">"</div>
+            <p>احترافية عالية وجودة تنفيذ ممتازة. تعاملنا معهم في مشروع ديكور كامل ونتطلع لمزيد.</p>
+            <div class="tcard__author">
+              <img src="https://i.pravatar.cc/80?img=33" alt="محمد" />
+              <div><strong>محمد الكعبي</strong><span>مدير داخلي</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="testi__nav">
+        <button class="testi__btn" id="tPrev" aria-label="السابق" data-cursor="link">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M19 12H5m6 6-6-6 6-6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+        </button>
+        <div class="swiper-pagination" id="tPag"></div>
+        <button class="testi__btn" id="tNext" aria-label="التالي" data-cursor="link">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact__inner">
+      <div class="contact__intro">
+        <span class="tag">٠٦ — تواصل</span>
+        <h2 class="h2">لديك فكرة؟<br/><em>لنصنعها معاً.</em></h2>
+        <p>أخبرنا عن مشروعك وسنعود إليك خلال 24 ساعة بخطة وعرض سعر.</p>
+
+        <div class="contact__info">
+          <div class="cinfo">
+            <span class="cinfo__lbl">العنوان</span>
+            <span class="cinfo__val">المنامة، مملكة البحرين</span>
+          </div>
+          <div class="cinfo">
+            <span class="cinfo__lbl">الهاتف</span>
+            <a href="tel:+97312345678" class="cinfo__val" data-cursor="link">+973 1234 5678</a>
+          </div>
+          <div class="cinfo">
+            <span class="cinfo__lbl">البريد</span>
+            <a href="mailto:hello@madacraft.bh" class="cinfo__val" data-cursor="link">hello@madacraft.bh</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact__form" id="contactForm">
+        <div class="fgroup">
+          <label>الاسم الكامل</label>
+          <input type="text" required placeholder="محمد أحمد" autocomplete="name" />
+        </div>
+        <div class="fgroup">
+          <label>البريد الإلكتروني</label>
+          <input type="email" required placeholder="you@email.com" autocomplete="email" />
+        </div>
+        <div class="fgroup">
+          <label>نوع الخدمة</label>
+          <select required>
+            <option value="">اختر الخدمة</option>
+            <option>الطباعة على الخشب</option>
+            <option>الطباعة على الأكريليك</option>
+            <option>هدايا مخصصة</option>
+            <option>ديكور داخلي</option>
+            <option>أخرى</option>
+          </select>
+        </div>
+        <div class="fgroup">
+          <label>رسالتك</label>
+          <textarea rows="4" required placeholder="أخبرنا عن مشروعك..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid btn--full" data-cursor="link">
+          <span>إرسال الرسالة</span>
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="contact__map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114917.72!2d50.46!3d26.22!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQmFocmFpbg!5e0!3m2!1sar!2sbh!4v1700000000000" loading="lazy" title="موقعنا"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="container">
+    <div class="foot__big">
+      <span>لنبدأ الحديث</span>
+      <a href="#contact" data-cursor="link">hello@madacraft.bh</a>
+    </div>
+
+    <div class="foot__grid">
+      <div class="foot__col">
+        <h4>Mada Craft BH</h4>
+        <p>ورشة حِرفية معاصرة في قلب المنامة، نصنع القطع التي تبقى.</p>
+        <div class="foot__social">
+          <a href="#" aria-label="Instagram" data-cursor="link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook" data-cursor="link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok" data-cursor="link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp" data-cursor="link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 21l2.1-5.3A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="foot__col">
+        <h4>تنقّل</h4>
+        <a href="#services" data-cursor="link">الخدمات</a>
+        <a href="#portfolio" data-cursor="link">الأعمال</a>
+        <a href="#process" data-cursor="link">طريقتنا</a>
+        <a href="#about" data-cursor="link">من نحن</a>
+      </div>
+
+      <div class="foot__col">
+        <h4>تواصل</h4>
+        <a href="tel:+97312345678" data-cursor="link">+973 1234 5678</a>
+        <a href="mailto:hello@madacraft.bh" data-cursor="link">hello@madacraft.bh</a>
+        <a href="#" data-cursor="link">المنامة، البحرين</a>
+      </div>
+
+      <div class="foot__col">
+        <h4>النشرة</h4>
+        <p class="foot__note">اشترك لتصلك أعمالنا الجديدة أولاً.</p>
+        <form class="foot__news" onsubmit="event.preventDefault(); this.reset(); this.querySelector('input').placeholder='✓ شكراً!';">
+          <input type="email" placeholder="بريدك الإلكتروني" required />
+          <button type="submit" aria-label="اشتراك" data-cursor="link">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="foot__bottom">
+      <span>© 2025 Mada Craft BH — جميع الحقوق محفوظة</span>
+      <span>صُنع بشغف في البحرين 🇧🇭</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ BACK TO TOP ============ -->
+<button class="totop" id="totop" aria-label="للأعلى" data-cursor="link">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 7-7 7 7M12 19V5"/></svg>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
