@@ -1,5 +1,5 @@
 /* ==========================================================
-   MADA CRAFT BH v2.1 — Final
+   MADA CRAFT BH v2.2 — Final Complete
    ========================================================== */
 
 (() => {
@@ -150,7 +150,6 @@
       .from('.hero__stat', { y: 20, opacity: 0, duration: .7, stagger: .1 }, '-=0.5')
       .from('.hero__scroll', { opacity: 0, duration: .6 }, '-=0.3');
 
-    // Counters
     $$('.hero__stat .num').forEach(el => {
       const target = +el.dataset.count;
       const obj = { val: 0 };
@@ -201,20 +200,27 @@
     });
   });
 
-  /* ============ 11. SERVICES — Reveal ============ */
-  $$('.scard').forEach((card, i) => {
-    gsap.from(card, {
-      y: 60,
-      opacity: 0,
-      duration: .9,
-      delay: i * 0.08,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: card,
-        start: 'top 88%',
-      }
-    });
-  });
+  /* ============ 11. SERVICES — Reveal (CSS-based, يعمل دائماً) ============ */
+  const servicesGrid = document.querySelector('.services__grid');
+  if (servicesGrid) {
+    const scardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const cards = entry.target.querySelectorAll('.scard');
+          cards.forEach((card, i) => {
+            setTimeout(() => card.classList.add('is-in'), i * 100);
+          });
+          scardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    scardObserver.observe(servicesGrid);
+
+    // Fallback: إذا ما اشتغل الـ observer لأي سبب، أظهر كل الكروت بعد 3 ثواني
+    setTimeout(() => {
+      $$('.scard').forEach(c => c.classList.add('is-in'));
+    }, 3000);
+  }
 
   /* ============ 12. PORTFOLIO FILTER ============ */
   const chips = $$('.chip');
@@ -317,6 +323,11 @@
     });
   });
 
+  // Fallback: إظهار كل الخطوات بعد 3 ثواني إذا ما اشتغل السكرول
+  setTimeout(() => {
+    psteps.forEach(s => s.classList.add('is-in'));
+  }, 3000);
+
   if (processList && innerWidth > 768) {
     ScrollTrigger.create({
       trigger: processList,
@@ -328,7 +339,6 @@
     });
   }
 
-  // Hover scaling for numbers
   psteps.forEach(step => {
     const num = step.querySelector('.pstep__num');
     step.addEventListener('mouseenter', () => {
@@ -406,6 +416,6 @@
   });
 
   console.log('%c✦ Mada Craft BH ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
-  console.log('%cv2.1 — Final Edition', 'color:#0F3626;font-size:12px;');
+  console.log('%cv2.2 — Final Complete', 'color:#0F3626;font-size:12px;');
 
 })();
