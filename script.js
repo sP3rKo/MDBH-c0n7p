@@ -1,5 +1,6 @@
 /* ==========================================================
-   MADA CRAFT BH v3.0 — Interactive Hero Studio
+   MADA CRAFT BH v3.2 — Interactive Hero Studio
+   (Fixed: removed word-split so Arabic letters stay connected)
    ========================================================== */
 
 (() => {
@@ -221,8 +222,6 @@
   if (heroStage && !isTouch) {
     let targetRX = 0, targetRY = 0;
     let currentRX = 0, currentRY = 0;
-
-    const heroRect = heroSection.getBoundingClientRect();
 
     heroSection.addEventListener('mousemove', e => {
       const rect = heroSection.getBoundingClientRect();
@@ -566,45 +565,12 @@
     });
   }
 
-  /* ============ 21. WORD HOVER SPLIT ============ */
-  // Split each hero word into individual letter spans for hover effect
-  if (!isTouch) {
-    $$('.hero__title .word').forEach(word => {
-      const originalText = word.textContent;
-      // skip if contains em or ink
-      if (word.querySelector('em') || word.querySelector('.ink')) return;
-
-      const letters = originalText.split('');
-      word.innerHTML = letters.map(l => `<span style="display:inline-block; transition: transform .3s var(--ease);">${l === ' ' ? '&nbsp;' : l}</span>`).join('');
-
-      const letterSpans = word.querySelectorAll('span');
-      letterSpans.forEach((span, i) => {
-        span.addEventListener('mouseenter', () => {
-          gsap.to(span, {
-            y: -8,
-            color: '#C5A059',
-            duration: 0.25,
-            ease: 'power2.out',
-          });
-        });
-        span.addEventListener('mouseleave', () => {
-          gsap.to(span, {
-            y: 0,
-            color: '',
-            duration: 0.4,
-            ease: 'elastic.out(1, 0.5)',
-          });
-        });
-      });
-    });
-  }
-
-  /* ============ 22. REFRESH ON LOAD ============ */
+  /* ============ 21. REFRESH ON LOAD ============ */
   window.addEventListener('load', () => {
     setTimeout(() => ScrollTrigger.refresh(), 500);
   });
 
-  console.log('%c✦ Mada Craft BH v3.0 ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
-  console.log('%cInteractive Hero Studio — Creative Edition', 'color:#0F3626;font-size:12px;');
+  console.log('%c✦ Mada Craft BH v3.2 ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
+  console.log('%cInteractive Hero Studio — Arabic Letters Fixed', 'color:#0F3626;font-size:12px;');
 
 })();
