@@ -1,5 +1,5 @@
 /* ==========================================================
-   MADA CRAFT BH v3.0 — Hero تفاعلي إبداعي
+   MADA CRAFT BH v3.1 — Interactive Hero Studio (Fixed Typography)
    ========================================================== */
 
 :root {
@@ -96,7 +96,6 @@ h1, h2, h3, h4, h5, h6 {
 .cursor.is-view .cursor__label,
 .cursor.is-drag .cursor__label { opacity: 1; }
 
-/* Trail */
 .cursor-trail {
   position: fixed;
   top: 0; left: 0;
@@ -421,7 +420,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--ff-ar);
   font-size: clamp(2rem, 5.5vw, 4rem);
   font-weight: 700;
-  line-height: 1.08;
+  line-height: 1.15;
   letter-spacing: -.025em;
   color: var(--primary);
 }
@@ -455,7 +454,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 8rem 0 2rem;
 }
 
-/* Particles canvas */
 .hero__canvas {
   position: absolute;
   inset: 0;
@@ -466,7 +464,6 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0.7;
 }
 
-/* Big background text */
 .hero__bg-text {
   position: absolute;
   top: 50%;
@@ -526,28 +523,31 @@ h1, h2, h3, h4, h5, h6 {
 }
 @keyframes pulse { 50% { opacity: .4; transform: scale(.7); } }
 
+/* === FIXED TYPOGRAPHY — Arabic letters no longer clipped === */
 .hero__title {
   font-size: clamp(2.5rem, 6.5vw, 5.25rem);
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.25;
   letter-spacing: -.035em;
   margin-bottom: 1.75rem;
   color: var(--primary);
+  padding-block: 0.1em;
 }
 .hero__title .line {
   display: block;
   overflow: hidden;
-  padding-block: .08em;
+  padding-block: 0.15em;
+  margin-block: -0.05em;
 }
 .hero__title .word {
   display: inline-block;
-  transform: translateY(110%);
+  transform: translateY(120%);
   will-change: transform;
   cursor: none;
   transition: color .3s;
   position: relative;
+  padding-block: 0.1em;
 }
-/* حروف فردية عند الهوفر */
 .hero__title .word:hover {
   color: var(--accent);
 }
@@ -557,6 +557,9 @@ h1, h2, h3, h4, h5, h6 {
   font-style: italic;
   color: var(--accent);
   position: relative;
+  display: inline-block;
+  padding-block: 0.05em;
+  line-height: 1.15;
 }
 .hero__title em::after {
   content: '';
@@ -810,7 +813,6 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: .05em;
 }
 
-/* SVG signature circle */
 .hero__signature {
   position: absolute;
   top: -8%;
@@ -919,7 +921,13 @@ h1, h2, h3, h4, h5, h6 {
 
   .hero { padding: 6rem 0 2rem; }
   .hero__bg-text { font-size: 22rem; }
-  .hero__title { font-size: clamp(2.25rem, 9vw, 3.5rem); }
+  .hero__title {
+    font-size: clamp(2.25rem, 9vw, 3.5rem);
+    line-height: 1.3;
+  }
+  .hero__title .line {
+    padding-block: 0.2em;
+  }
   .hero__eyebrow { font-size: .72rem; }
   .hero__desc { font-size: .95rem; }
   .hero__cta { flex-direction: column; align-items: stretch; gap: 1rem; }
@@ -949,7 +957,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 480px) {
-  .hero__title { font-size: clamp(1.85rem, 9vw, 2.5rem); }
+  .hero__title {
+    font-size: clamp(1.85rem, 9vw, 2.5rem);
+    line-height: 1.35;
+  }
+  .hero__title .line {
+    padding-block: 0.25em;
+  }
   .hero__bg-text { font-size: 16rem; }
 }
 
@@ -961,7 +975,7 @@ h1, h2, h3, h4, h5, h6 {
 .manifesto__text {
   font-size: clamp(1.5rem, 4.2vw, 3rem);
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.5;
   color: var(--ink);
   letter-spacing: -.015em;
   max-width: 20ch;
@@ -979,6 +993,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   position: relative;
   display: inline-block;
+  padding-block: 0.05em;
 }
 .manifesto__text em::after {
   content: '';
@@ -1081,6 +1096,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: .75rem;
   transition: color .4s;
   letter-spacing: -.01em;
+  line-height: 1.3;
 }
 .scard:hover h3 { color: var(--light); }
 .scard p {
@@ -1197,6 +1213,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--light);
   margin-bottom: .25rem;
   letter-spacing: -.01em;
+  line-height: 1.3;
 }
 .pcard__info span {
   font-size: .72rem;
@@ -1314,6 +1331,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: .65rem;
   letter-spacing: -.01em;
   transition: color .4s;
+  line-height: 1.3;
 }
 .pstep__body p {
   color: var(--muted);
@@ -1623,7 +1641,7 @@ a.cinfo__val:hover { color: var(--secondary); }
   font-weight: 600;
   font-style: italic;
   color: var(--light);
-  line-height: 1.1;
+  line-height: 1.2;
   transition: color .35s;
   word-break: break-all;
   direction: ltr;
