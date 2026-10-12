@@ -1,6 +1,6 @@
 /* ==========================================================
-   MADA CRAFT BH v3.3 — Interactive Hero Studio
-   (Fixed: Arabic letters + Lightbox mobile + Touch scroll)
+   MADA CRAFT BH v3.4 — Full Fixed
+   (Arabic letters + Lightbox mobile + Touch scroll + iOS)
    ========================================================== */
 
 (() => {
@@ -80,12 +80,13 @@
     });
   }
 
-  /* ============ 3. LENIS SMOOTH SCROLL (Desktop only) ============ */
+  /* ============ 3. SMOOTH SCROLL (Desktop Lenis / Mobile Native) ============ */
   const isDesktop = window.matchMedia('(min-width: 769px)').matches && !isTouch;
 
   let lenis = null;
 
   if (isDesktop) {
+    // Lenis للديسكتوب فقط
     lenis = new Lenis({
       duration: 1.15,
       easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -99,20 +100,21 @@
     }
     requestAnimationFrame(raf);
   } else {
-    // Mock لـ Lenis على الجوال عشان باقي الأكواد ما تتعطل
+    // Mock للجوال — سكرول طبيعي 100%
     lenis = {
       scrollTo: (target, opts = {}) => {
         if (typeof target === 'number') {
           window.scrollTo({ top: target, behavior: 'smooth' });
         } else {
           const top = target.getBoundingClientRect().top + window.scrollY + (opts.offset || 0);
-          window.scrollTo({ top, behavior: 'smooth' });
+          window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
         }
       },
-      stop: () => { document.body.style.overflow = 'hidden'; },
-      start: () => { document.body.style.overflow = ''; },
+      stop: () => {},
+      start: () => {},
       raf: () => {},
       on: () => {},
+      destroy: () => {},
     };
   }
 
@@ -591,7 +593,7 @@
     setTimeout(() => ScrollTrigger.refresh(), 500);
   });
 
-  console.log('%c✦ Mada Craft BH v3.3 ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
-  console.log('%cInteractive Hero Studio — All Fixed', 'color:#0F3626;font-size:12px;');
+  console.log('%c✦ Mada Craft BH v3.4 ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
+  console.log('%cAll Fixed — Touch Scroll Works', 'color:#0F3626;font-size:12px;');
 
 })();
