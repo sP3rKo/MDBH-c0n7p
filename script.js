@@ -1,6 +1,6 @@
 /* ==========================================================
-   MADA CRAFT BH v3.2 — Interactive Hero Studio
-   (Fixed: removed word-split so Arabic letters stay connected)
+   MADA CRAFT BH v3.3 — Interactive Hero Studio
+   (Fixed: Arabic letters + Lightbox mobile + Touch scroll)
    ========================================================== */
 
 (() => {
@@ -54,12 +54,10 @@
     });
 
     const raf = () => {
-      // main cursor fast
       cx += (mx - cx) * 0.22;
       cy += (my - cy) * 0.22;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
 
-      // trail slower
       tx += (mx - tx) * 0.08;
       ty += (my - ty) * 0.08;
       cursorTrail.style.transform = `translate(${tx}px, ${ty}px) translate(-50%, -50%)`;
@@ -82,19 +80,47 @@
     });
   }
 
-  /* ============ 3. LENIS SMOOTH SCROLL ============ */
-  const lenis = new Lenis({
-    duration: 1.15,
-    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    touchMultiplier: 1.8,
-  });
-  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
+  /* ============ 3. LENIS SMOOTH SCROLL (Desktop only) ============ */
+  const isDesktop = window.matchMedia('(min-width: 769px)').matches && !isTouch;
+
+  let lenis = null;
+
+  if (isDesktop) {
+    lenis = new Lenis({
+      duration: 1.15,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.8,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  } else {
+    // Mock لـ Lenis على الجوال عشان باقي الأكواد ما تتعطل
+    lenis = {
+      scrollTo: (target, opts = {}) => {
+        if (typeof target === 'number') {
+          window.scrollTo({ top: target, behavior: 'smooth' });
+        } else {
+          const top = target.getBoundingClientRect().top + window.scrollY + (opts.offset || 0);
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      },
+      stop: () => { document.body.style.overflow = 'hidden'; },
+      start: () => { document.body.style.overflow = ''; },
+      raf: () => {},
+      on: () => {},
+    };
+  }
 
   /* ============ 4. GSAP SETUP ============ */
   gsap.registerPlugin(ScrollTrigger);
-  lenis.on('scroll', ScrollTrigger.update);
+  if (isDesktop) {
+    lenis.on('scroll', ScrollTrigger.update);
+  }
 
   /* ============ 5. NAVBAR ============ */
   const nav = $('#nav');
@@ -189,7 +215,6 @@
         p.x += p.vx;
         p.y += p.vy;
 
-        // تفاعل مع الماوس
         const dx = p.x - mouseX;
         const dy = p.y - mouseY;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -227,8 +252,8 @@
       const rect = heroSection.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
-      targetRY = x * 18; // rotate around Y (left-right)
-      targetRX = -y * 12; // rotate around X (up-down)
+      targetRY = x * 18;
+      targetRX = -y * 12;
     });
 
     heroSection.addEventListener('mouseleave', () => {
@@ -239,7 +264,6 @@
       currentRX += (targetRX - currentRX) * 0.08;
       currentRY += (targetRY - currentRY) * 0.08;
 
-      // كل بطاقة تدور بكمية تعتمد على depth
       $$('[data-hero-card]').forEach(card => {
         const depth = parseFloat(card.dataset.depth) || 1;
         const rx = currentRX * depth;
@@ -248,7 +272,6 @@
         card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(${z}px)`;
       });
 
-      // الشين يتتبع الماوس
       $$('.hero__card').forEach(card => {
         const rect = card.getBoundingClientRect();
         const shineX = ((mx - rect.left) / rect.width) * 100;
@@ -280,7 +303,6 @@
       .from('.hero__bottom-item', { y: 20, opacity: 0, duration: .7, stagger: .1 }, '-=0.6')
       .from('.hero__scroll', { opacity: 0, duration: .6 }, '-=0.4');
 
-    // Signature circle draw
     gsap.to('.hero__signature-circle', {
       strokeDashoffset: 0,
       duration: 2.5,
@@ -288,7 +310,6 @@
       delay: 0.8,
     });
 
-    // Counters
     $$('.hero__bottom-num, .hero__float-stat .num, .hero__stat .num').forEach(el => {
       const target = +el.dataset.count;
       if (!target) return;
@@ -399,45 +420,46 @@
     });
   });
 
-  /* ============ 14. PORTFOLIO LIGHTBOX ============ */
+  /* ============ 14. PORTFOLIO LIGHTBOX (Responsive) ============ */
   pcards.forEach(card => {
     card.addEventListener('click', () => {
-      if (isTouch) return;
       const img = card.querySelector('img');
       const title = card.querySelector('h3')?.textContent || '';
       const cat = card.querySelector('.pcard__info span')?.textContent || '';
 
       const lb = document.createElement('div');
-      lb.style.cssText = `
-        position:fixed; inset:0; z-index:9999;
-        background:rgba(10,31,22,.96);
-        backdrop-filter:blur(20px);
-        display:grid; place-items:center;
-        padding:1.5rem; opacity:0;
-        transition:opacity .4s ease;
-        cursor:pointer;
-      `;
+      lb.className = 'lightbox';
       lb.innerHTML = `
-        <div style="max-width:900px; width:100%;">
-          <img src="${img.src}" alt="${title}"
-            style="width:100%; border-radius:20px; box-shadow:0 40px 80px rgba(0,0,0,.6);" />
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem; color:#F4F1EA; gap:1rem; flex-wrap:wrap;">
+        <div class="lightbox__inner">
+          <button class="lightbox__close" aria-label="إغلاق">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+          <div class="lightbox__img-wrap">
+            <img src="${img.src}" alt="${title}" />
+          </div>
+          <div class="lightbox__caption">
             <div>
-              <h3 style="font-size:1.25rem; color:#F4F1EA; margin-bottom:.25rem; font-family:'IBM Plex Sans Arabic', sans-serif;">${title}</h3>
-              <span style="font-size:.75rem; color:#C5A059; letter-spacing:.2em; text-transform:uppercase; font-family:'Outfit', sans-serif;">${cat}</span>
+              <h3>${title}</h3>
+              <span>${cat}</span>
             </div>
-            <span style="color:#C5A059; font-size:.85rem; letter-spacing:.1em; font-family:'IBM Plex Sans Arabic', sans-serif;">إغلاق ✕</span>
           </div>
         </div>
       `;
       document.body.appendChild(lb);
-      requestAnimationFrame(() => lb.style.opacity = '1');
+      document.body.classList.add('is-locked');
+      lenis.stop();
+      requestAnimationFrame(() => lb.classList.add('is-open'));
 
       const close = () => {
-        lb.style.opacity = '0';
+        lb.classList.remove('is-open');
+        document.body.classList.remove('is-locked');
+        lenis.start();
         setTimeout(() => lb.remove(), 400);
       };
-      lb.addEventListener('click', close);
+      lb.querySelector('.lightbox__close').addEventListener('click', close);
+      lb.addEventListener('click', e => {
+        if (e.target === lb) close();
+      });
       document.addEventListener('keydown', e => e.key === 'Escape' && close(), { once: true });
     });
   });
@@ -551,7 +573,6 @@
         const y = e.clientY - r.top - r.height / 2;
         el.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
 
-        // Radial highlight for solid button
         if (el.classList.contains('btn--solid')) {
           const shineX = ((e.clientX - r.left) / r.width) * 100;
           const shineY = ((e.clientY - r.top) / r.height) * 100;
@@ -570,7 +591,7 @@
     setTimeout(() => ScrollTrigger.refresh(), 500);
   });
 
-  console.log('%c✦ Mada Craft BH v3.2 ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
-  console.log('%cInteractive Hero Studio — Arabic Letters Fixed', 'color:#0F3626;font-size:12px;');
+  console.log('%c✦ Mada Craft BH v3.3 ✦', 'color:#C5A059;font-size:22px;font-weight:bold;font-family:Georgia;');
+  console.log('%cInteractive Hero Studio — All Fixed', 'color:#0F3626;font-size:12px;');
 
 })();
